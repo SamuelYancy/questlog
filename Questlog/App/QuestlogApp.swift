@@ -19,8 +19,18 @@ struct QuestlogApp: App {
 }
 
 struct RootView: View {
+    @Environment(\.modelContext) private var modelContext
+
     var body: some View {
         QuestListView()
+            .task { seedIfNeeded() }
+    }
+
+    private func seedIfNeeded() {
+        let count = (try? modelContext.fetchCount(FetchDescriptor<Quest>())) ?? 0
+        guard count == 0 else { return }
+        modelContext.insert(Quest(title: "Build app for iphone13 pro"))
+        try? modelContext.save()
     }
 }
 
