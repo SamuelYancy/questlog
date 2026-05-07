@@ -23,6 +23,15 @@ struct QuestListView: View {
             .background(Theme.Colors.parchment.ignoresSafeArea())
             .navigationTitle("Questlog")
             .toolbar {
+                #if os(iOS)
+                ToolbarItem(placement: .topBarLeading) {
+                    KnightAvatarView(size: 32)
+                }
+                #else
+                ToolbarItem(placement: .navigation) {
+                    KnightAvatarView(size: 28)
+                }
+                #endif
                 ToolbarItem(placement: .principal) {
                     Picker("Filter", selection: $statusFilter) {
                         ForEach(QuestStatus.allCases) { status in
